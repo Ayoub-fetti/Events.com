@@ -10,7 +10,7 @@ import { Role } from '../../common/enums/role.enum';
 export class CreateUserDto {
   @IsString()
   @MinLength(2)
-  name: string;
+  fullName: string;
 
   @IsEmail()
   email: string;

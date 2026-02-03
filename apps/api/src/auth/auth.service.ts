@@ -14,7 +14,7 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const user = await this.usersService.create({
-      name: registerDto.fullName,
+      fullName: registerDto.fullName,
       email: registerDto.email,
       password: registerDto.password,
       role: registerDto.role,
@@ -37,7 +37,7 @@ export class AuthService {
       user: {
         id: user._id,
         email: user.email,
-        name: user.name,
+        fullName: user.fullName,
         role: user.role,
       },
     };
