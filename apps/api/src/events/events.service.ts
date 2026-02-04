@@ -9,12 +9,49 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update.event.dto';
 import { Event, EventDocument } from './entities/event.entities';
 import { Status } from 'src/common/enums/status.enum';
+import { FilterEventsDto } from './dto/filter-events.dto';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
   ) {}
+
+  async findAll(filters?: FilterEventsDto): Promise<Event[]> {
+    const query: any = {};
+
+    if (filters?.status) {
+      query.status = filters.status;
+    }
+
+    if (filters?.dateFrom || filters?.dateTo) {
+      query.date = {};
+      if (filters.dateFrom) {
+        query.date.$gte = new Date(filters.dateFrom);
+      }
+      if (filters.dateTo) {
+        query.date.$lte = new Date(filters.dateTo);
+      }
+    }
+
+    return this.eventModel.find(query).exec();
+  }
+
+  async findPublished(filters?: FilterEventsDto): Promise<Event[]> {
+    const query: any = { status: Status.PUBLISHED };
+
+    if (filters?.dateFrom || filters?.dateTo) {
+      query.date = {};
+      if (filters.dateFrom) {
+        query.date.$gte = new Date(filters.dateFrom);
+      }
+      if (filters.dateTo) {
+        query.date.$lte = new Date(filters.dateTo);
+      }
+    }
+
+    return this.eventModel.find(query).exec();
+  }
 
   async create(createEventDto: CreateEventDto): Promise<Event> {
     const createdEvent = new this.eventModel(createEventDto);
