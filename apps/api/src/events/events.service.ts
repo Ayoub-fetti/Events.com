@@ -37,6 +37,14 @@ export class EventsService {
     return this.eventModel.find(query).exec();
   }
 
+  async findOne(id: string): Promise<Event> {
+    const event = await this.eventModel.findById(id);
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
+    return event;
+  }
+
   async findPublished(filters?: FilterEventsDto): Promise<Event[]> {
     const query: any = { status: Status.PUBLISHED };
 
