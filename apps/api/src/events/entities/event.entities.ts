@@ -23,5 +23,8 @@ export class Event {
 
   @Prop({ enum: Status, default: Status.DRAFT })
   status: string;
+
+  @Prop()
+  image: string;
 }
 export const EventSchema = SchemaFactory.createForClass(Event);

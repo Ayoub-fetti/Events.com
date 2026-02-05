@@ -35,4 +35,8 @@ export class UpdateEventDto {
   @IsOptional()
   @IsEnum(Status)
   status: Status;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
 }
