@@ -23,18 +23,13 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
+  // Admin endpoints
+
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   findAll(@Query() filters: FilterEventsDto) {
     return this.eventsService.findAll(filters);
-  }
-
-  @Get('published')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.PARTICIPANT)
-  findPublished(@Query() filters: FilterEventsDto) {
-    return this.eventsService.findPublished(filters);
   }
 
   @Get(':id')
@@ -76,5 +71,14 @@ export class EventsController {
   @Roles(Role.ADMIN)
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
+  }
+
+  // PARTICIPANT endpoints
+
+  @Get('published')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.PARTICIPANT)
+  findPublished(@Query() filters: FilterEventsDto) {
+    return this.eventsService.findPublished(filters);
   }
 }

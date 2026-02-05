@@ -85,6 +85,14 @@ export class ReservationsService {
       .exec();
   }
 
+  async findByUser(userId: string): Promise<Reservation[]> {
+    return this.reservationModel
+      .find({ userId })
+      .populate('eventId')
+      .populate('userId')
+      .exec();
+  }
+
   async updateStatus(id: string, status: string): Promise<Reservation | null> {
     return this.reservationModel
       .findByIdAndUpdate(id, { status }, { new: true })
