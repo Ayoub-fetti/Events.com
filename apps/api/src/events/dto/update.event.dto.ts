@@ -1,11 +1,12 @@
 import {
   IsString,
   IsEnum,
-  IsDate,
   IsNumber,
   IsOptional,
   Min,
+  IsDate,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { Status } from 'src/common/enums/status.enum';
 
 export class UpdateEventDto {
@@ -19,6 +20,7 @@ export class UpdateEventDto {
 
   @IsOptional()
   @IsDate()
+  @Type(() => Date)
   date: Date;
 
   @IsOptional()

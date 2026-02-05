@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.modules';
+import { ReservationsModule } from './reservations/reservations.module';
+import { PdfModule } from './pdf/pdf.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -14,6 +16,8 @@ import { AppService } from './app.service';
     ),
     AuthModule,
     EventsModule,
+    ReservationsModule,
+    PdfModule,
   ],
   controllers: [AppController],
   providers: [AppService],

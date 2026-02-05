@@ -4,7 +4,7 @@ import { ReservationsController } from './reservations.controller';
 import { ReservationsService } from './reservations.service';
 import { Reservation, ReservationSchema } from './entities/reservations.entity';
 import { Event, EventSchema } from '../events/entities/event.entities';
-
+import { PdfService } from 'src/pdf/pdf.service';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -13,7 +13,7 @@ import { Event, EventSchema } from '../events/entities/event.entities';
     ]),
   ],
   controllers: [ReservationsController],
-  providers: [ReservationsService],
+  providers: [ReservationsService, PdfService],
   exports: [ReservationsService],
 })
 export class ReservationsModule {}

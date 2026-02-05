@@ -32,35 +32,37 @@ export class ReservationsController {
 
   @Post()
   @Roles(Role.PARTICIPANT)
-  @UseGuards(RolesGuard)
-  async createReservation(@Body() CreateReservationDto, @Request() req) {
-    CreateReservationDto.userId = req.user.id;
-    return this.reservationsService.create(CreateReservationDto);
+  async createReservation(
+    @Body() createReservationDto: CreateReservationDto,
+    @Request() req,
+  ) {
+    createReservationDto.userId = req.user.userId;
+    return this.reservationsService.create(createReservationDto);
   }
 
   @Get('my-reservations')
   @Roles(Role.PARTICIPANT)
-  @UseGuards(RolesGuard)
   async getMyReservations(@Request() req) {
-    return this.reservationsService.findByUser(req.user.id);
+    return this.reservationsService.findByUser(req.user.userId);
   }
 
   @Patch(':id/cancel')
   @Roles(Role.PARTICIPANT)
-  @UseGuards(RolesGuard)
   async cancelReservation(@Param('id') id: string, @Request() req) {
     return this.reservationsService.updateStatus(
       id,
       StatusReservation.CANCELED,
     );
   }
-  // Add to reservations.controller.ts
   @Get(':id/ticket')
   @Roles(Role.PARTICIPANT)
   async downloadTicket(@Param('id') id: string, @Request() req, @Res() res) {
     const reservation = await this.reservationsService.findOne(id);
 
-    if (!reservation || reservation.userId.toString() !== req.user.id) {
+    if (
+      !reservation ||
+      (reservation.userId as any)._id.toString() !== req.user.userId
+    ) {
       throw new ForbiddenException('Access denied');
     }
 
@@ -78,14 +80,12 @@ export class ReservationsController {
 
   @Get('event/:eventId')
   @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
   async getReservationsByEvent(@Param('eventId') eventId: string) {
     return this.reservationsService.findByEvent(eventId);
   }
 
   @Patch(':id/status')
   @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
   async updateReservationStatus(
     @Param('id') id: string,
     @Body('status') status: string,

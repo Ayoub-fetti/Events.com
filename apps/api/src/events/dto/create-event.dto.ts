@@ -1,4 +1,5 @@
-import { IsString, IsEnum, IsDate, IsNumber, Min } from 'class-validator';
+import { IsString, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
+import { Type } from 'class-transformer';
 import { Status } from 'src/common/enums/status.enum';
 
 export class CreateEventDto {
@@ -9,6 +10,7 @@ export class CreateEventDto {
   description: string;
 
   @IsDate()
+  @Type(() => Date)
   date: Date;
 
   @IsString()
