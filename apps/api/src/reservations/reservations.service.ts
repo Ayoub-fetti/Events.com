@@ -69,7 +69,7 @@ export class ReservationsService {
       .exec();
   }
 
-  async findOne(id: string): Promise<Reservation> {
+  async findOne(id: string): Promise<Reservation | null> {
     return this.reservationModel
       .findById(id)
       .populate('eventId')
@@ -77,7 +77,15 @@ export class ReservationsService {
       .exec();
   }
 
-  async updateStatus(id: string, status: string): Promise<Reservation> {
+  async findByEvent(eventId: string): Promise<Reservation[]> {
+    return this.reservationModel
+      .find({ eventId })
+      .populate('eventId')
+      .populate('userId')
+      .exec();
+  }
+
+  async updateStatus(id: string, status: string): Promise<Reservation | null> {
     return this.reservationModel
       .findByIdAndUpdate(id, { status }, { new: true })
       .exec();
