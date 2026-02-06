@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ErrorBoundary from '@/components/shared/error-boundary';
+import StoreProvider from '@/store/providers/store-provider';
 
 export const metadata: Metadata = {
   title: 'Events.com',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="antialiased">
-        <ErrorBoundary>{children}</ErrorBoundary>
+        <StoreProvider>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </StoreProvider>
       </body>
     </html>
   );
