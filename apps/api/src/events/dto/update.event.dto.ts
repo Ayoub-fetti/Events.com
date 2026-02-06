@@ -39,5 +39,5 @@ export class UpdateEventDto {
 
   @IsOptional()
   @IsString()
-  image?: string;
+  image: string;
 }
