@@ -30,6 +30,7 @@ export class UpdateEventDto {
   @IsOptional()
   @IsNumber()
   @Min(1, { message: 'Capacity must be at least 1' })
+  @Type(() => Number)
   capacity: number;
 
   @IsOptional()
