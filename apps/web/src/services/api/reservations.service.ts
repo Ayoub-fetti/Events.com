@@ -5,12 +5,12 @@ class ReservationsService {
   async create(
     createReservationDto: CreateReservationDto,
   ): Promise<Reservation> {
-    const { data } = await httpClient.post(
-      '/reservations',
-      createReservationDto,
-    );
+    const { data } = await httpClient.post('/reservations', {
+      eventId: createReservationDto.eventId,
+    });
     return data;
   }
+
   async findAll(): Promise<Reservation[]> {
     const { data } = await httpClient.get('/reservations');
     return data;

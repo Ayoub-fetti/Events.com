@@ -35,6 +35,13 @@ export class EventsController {
     return this.eventsService.findAll(filters);
   }
 
+  @Get('published')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.PARTICIPANT)
+  findPublished(@Query() filters: FilterEventsDto) {
+    return this.eventsService.findPublished(filters);
+  }
+
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
@@ -117,12 +124,5 @@ export class EventsController {
   @Roles(Role.ADMIN)
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
-  }
-
-  @Get('published')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.PARTICIPANT)
-  findPublished(@Query() filters: FilterEventsDto) {
-    return this.eventsService.findPublished(filters);
   }
 }

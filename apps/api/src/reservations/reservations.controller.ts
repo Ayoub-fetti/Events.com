@@ -83,8 +83,14 @@ export class ReservationsController {
   async getAllReservations() {
     return this.reservationsService.findAll();
   }
+  @Get('event/:eventId/count')
+  @Roles(Role.ADMIN, Role.PARTICIPANT)
+  async getReservationsCount(@Param('eventId') eventId: string) {
+    return this.reservationsService.getReservationsCount(eventId);
+  }
+
   @Get('event/:eventId')
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.PARTICIPANT)
   async getReservationsByEvent(@Param('eventId') eventId: string) {
     return this.reservationsService.findByEvent(eventId);
   }

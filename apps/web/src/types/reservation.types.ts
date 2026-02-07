@@ -17,5 +17,5 @@ export interface Reservation {
 
 export interface CreateReservationDto {
   eventId: string;
-  userId: string;
+  userId?: string;
 }

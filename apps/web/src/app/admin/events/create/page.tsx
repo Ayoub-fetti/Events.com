@@ -1,25 +1,39 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useEvents } from '@/hooks/use-events';
 import { Status } from '@/types/event.types';
+import { eventSchema } from '@/lib/validations';
+
+type EventFormData = {
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  capacity: number;
+  status: Status;
+};
 
 export default function CreateEvent() {
   const router = useRouter();
   const { createEvent } = useEvents();
   const [image, setImage] = useState<File | null>(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    location: '',
-    capacity: 0,
-    status: Status.DRAFT,
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<EventFormData>({
+    resolver: yupResolver(eventSchema),
+    defaultValues: {
+      status: Status.DRAFT,
+    },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await createEvent(formData, image || undefined);
+  const onSubmit = async (data: EventFormData) => {
+    await createEvent(data, image || undefined);
     router.push('/admin/events');
   };
 
@@ -27,66 +41,74 @@ export default function CreateEvent() {
     <div className="max-w-2xl">
       <h1 className="text-3xl font-bold mb-6">Create Event</h1>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white rounded-lg shadow p-6 space-y-4"
       >
         <div>
           <label className="block text-sm font-medium mb-1">Title</label>
           <input
             type="text"
-            required
+            {...register('title')}
             className="w-full border rounded px-3 py-2"
-            value={formData.title}
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
         </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">Description</label>
           <textarea
-            required
+            {...register('description')}
             className="w-full border rounded px-3 py-2"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.description.message}
+            </p>
+          )}
         </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">Date</label>
           <input
             type="datetime-local"
-            required
+            {...register('date')}
             className="w-full border rounded px-3 py-2"
-            value={formData.date}
-            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
           />
+          {errors.date && (
+            <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
+          )}
         </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">Location</label>
           <input
             type="text"
-            required
+            {...register('location')}
             className="w-full border rounded px-3 py-2"
-            value={formData.location}
-            onChange={(e) =>
-              setFormData({ ...formData, location: e.target.value })
-            }
           />
+          {errors.location && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.location.message}
+            </p>
+          )}
         </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">Capacity</label>
           <input
             type="number"
-            required
+            {...register('capacity', { valueAsNumber: true })}
             className="w-full border rounded px-3 py-2"
-            value={formData.capacity}
-            onChange={(e) =>
-              setFormData({ ...formData, capacity: Number(e.target.value) })
-            }
           />
+          {errors.capacity && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.capacity.message}
+            </p>
+          )}
         </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">Image</label>
           <input
@@ -96,6 +118,7 @@ export default function CreateEvent() {
             onChange={(e) => setImage(e.target.files?.[0] || null)}
           />
         </div>
+
         <div className="flex gap-2">
           <button
             type="submit"
