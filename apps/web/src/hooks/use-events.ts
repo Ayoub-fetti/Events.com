@@ -66,14 +66,18 @@ export const useEvents = () => {
     }
   };
 
-  const createEvent = async (eventData: CreateEventDto) => {
-    const data = await eventsService.create(eventData);
+  const createEvent = async (eventData: CreateEventDto, image?: File) => {
+    const data = await eventsService.create(eventData, image);
     dispatch(addEvent(data));
     return data;
   };
 
-  const updateEvent = async (id: string, eventData: UpdateEventDto) => {
-    const data = await eventsService.update(id, eventData);
+  const updateEvent = async (
+    id: string,
+    eventData: UpdateEventDto,
+    image?: File,
+  ) => {
+    const data = await eventsService.update(id, eventData, image);
     dispatch(updateEventAction(data));
     return data;
   };

@@ -17,13 +17,31 @@ class EventsService {
     return data;
   }
 
-  async create(createEventDto: CreateEventDto): Promise<Event> {
-    const { data } = await httpClient.post('/events', createEventDto);
+  async create(createEventDto: CreateEventDto, image?: File): Promise<Event> {
+    const formData = new FormData();
+    Object.entries(createEventDto).forEach(([key, value]) => {
+      formData.append(key, value.toString());
+    });
+    if (image) formData.append('image', image);
+    const { data } = await httpClient.post('/events', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     return data;
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
-    const { data } = await httpClient.put(`/events/${id}`, updateEventDto);
+  async update(
+    id: string,
+    updateEventDto: UpdateEventDto,
+    image?: File,
+  ): Promise<Event> {
+    const formData = new FormData();
+    Object.entries(updateEventDto).forEach(([key, value]) => {
+      if (value !== undefined) formData.append(key, value.toString());
+    });
+    if (image) formData.append('image', image);
+    const { data } = await httpClient.put(`/events/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     return data;
   }
 
