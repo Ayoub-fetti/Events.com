@@ -3,6 +3,7 @@ import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { authUtils } from './auth-utils';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
@@ -13,8 +14,17 @@ const httpClient: AxiosInstance = axios.create({
 
 httpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('token');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    const token = authUtils.getToken();
+
+    if (token) {
+      if (authUtils.isTokenExpired(token)) {
+        authUtils.removeToken();
+        window.location.href = '/auth/login';
+        return Promise.reject(new Error('Token expired'));
+      }
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => Promise.reject(error),
@@ -24,7 +34,7 @@ httpClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
+      authUtils.removeToken();
       window.location.href = '/auth/login';
     }
     return Promise.reject(error);
