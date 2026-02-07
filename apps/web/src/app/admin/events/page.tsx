@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useEvents } from '@/hooks/use-events';
 import Loading from '@/components/shared/loading';
+import Swal from 'sweetalert2';
 
 export default function AdminEvents() {
   const {
@@ -20,12 +21,21 @@ export default function AdminEvents() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (
-      confirm(
-        'Are you sure you want to delete this event? This action cannot be undone.',
-      )
-    ) {
+    const result = await Swal.fire({
+      title: 'Delete Event?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Delete',
+      background: '#1f2937',
+      color: '#fff',
+    });
+
+    if (result.isConfirmed) {
       await deleteEvent(id);
+      Swal.fire('Deleted!', 'Event deleted successfully', 'success');
     }
   };
 
