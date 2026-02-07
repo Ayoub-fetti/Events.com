@@ -36,8 +36,6 @@ export class EventsController {
   }
 
   @Get('published')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.PARTICIPANT)
   findPublished(@Query() filters: FilterEventsDto) {
     return this.eventsService.findPublished(filters);
   }

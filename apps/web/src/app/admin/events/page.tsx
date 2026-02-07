@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useEvents } from '@/hooks/use-events';
+import Loading from '@/components/shared/loading';
 
 export default function AdminEvents() {
   const {
@@ -45,16 +46,7 @@ export default function AdminEvents() {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin mx-auto"></div>
-          <p className="text-gray-400">Loading events...</p>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="space-y-6">

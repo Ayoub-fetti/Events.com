@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEvents } from '@/hooks/use-events';
 import { useReservations } from '@/hooks/use-reservations';
 import httpClient from '@/services/utils/http-client';
+import { toast } from 'react-toastify';
 
 export default function EventDetail() {
   const params = useParams();
@@ -41,12 +42,13 @@ export default function EventDetail() {
   const handleReserve = async () => {
     try {
       await createReservation({ eventId: params.id as string });
-      alert('Reservation created successfully!');
       fetchMyReservations();
       loadReservedCount();
-      router.push('/participant/reservations');
-    } catch (error: any) {
-      alert(error?.response?.data?.message || 'Failed to create reservation');
+      toast.success('Reservation created successfully!');
+      setTimeout(() => router.push('/participant/reservations'), 1000);
+    } catch (err: any) {
+      console.error('Error message:', err);
+      toast.error('Error Happened');
     }
   };
 

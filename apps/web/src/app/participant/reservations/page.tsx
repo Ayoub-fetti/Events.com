@@ -1,6 +1,8 @@
 'use client';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useReservations } from '@/hooks/use-reservations';
+import Loading from '@/components/shared/loading';
 
 export default function ParticipantReservations() {
   const {
@@ -23,12 +25,22 @@ export default function ParticipantReservations() {
       a.href = url;
       a.download = `ticket-${id}.pdf`;
       a.click();
+      toast.success('Ticket downloaded successfully!');
     } catch (error) {
-      alert('Failed to download ticket');
+      toast.error('Failed to download ticket');
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  const handleCancel = async (id: string) => {
+    try {
+      await cancelReservation(id);
+      toast.success('Reservation cancelled successfully!');
+    } catch (error) {
+      toast.error('Failed to cancel reservation');
+    }
+  };
+
+  if (loading) return <Loading />;
 
   return (
     <div>
@@ -73,13 +85,7 @@ export default function ParticipantReservations() {
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-2 py-1 rounded text-xs ${
-                        reservation.status === 'confirmed'
-                          ? 'bg-green-100 text-green-800'
-                          : reservation.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-red-100 text-red-800'
-                      }`}
+                      className={`px-2 py-1 rounded text-xs ${reservation.status === 'confirmed' ? 'bg-green-100 text-green-800' : reservation.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}
                     >
                       {reservation.status}
                     </span>
@@ -95,7 +101,7 @@ export default function ParticipantReservations() {
                     )}
                     {reservation.status === 'pending' && (
                       <button
-                        onClick={() => cancelReservation(reservation._id)}
+                        onClick={() => handleCancel(reservation._id)}
                         className="text-red-600 hover:underline"
                       >
                         Cancel

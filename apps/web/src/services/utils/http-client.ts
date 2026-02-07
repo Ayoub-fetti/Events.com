@@ -14,6 +14,8 @@ const httpClient: AxiosInstance = axios.create({
 
 httpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    if (typeof window === 'undefined') return config;
+
     const token = authUtils.getToken();
 
     if (token) {
@@ -33,9 +35,13 @@ httpClient.interceptors.request.use(
 httpClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      authUtils.removeToken();
-      window.location.href = '/auth/login';
+    if (error.response?.status === 401 && typeof window !== 'undefined') {
+      const isPublicRoute = error.config?.url?.includes('/events/published');
+
+      if (!isPublicRoute) {
+        authUtils.removeToken();
+        window.location.href = '/auth/login';
+      }
     }
     return Promise.reject(error);
   },
