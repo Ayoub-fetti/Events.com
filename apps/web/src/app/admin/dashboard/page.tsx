@@ -218,7 +218,7 @@ export default function AdminDashboard() {
               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span className="text-gray-300 text-sm">Last updated: Just now</span>
+          <span className="text-gray-400 text-sm">Last updated: Just now</span>
         </div>
       </div>
 
