@@ -1,7 +1,7 @@
-import ParticipantSidebar from '@/components/participant/participant-sidebar';
+import AdminSidebar from '@/components/admin/admin-sidebar';
 import ProtectedRoute from '@/components/auth/protected-route';
 
-export default function ParticipantLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ export default function ParticipantLayout({
   return (
     <ProtectedRoute>
       <div className="flex min-h-screen bg-gray-100">
-        <ParticipantSidebar />
+        <AdminSidebar />
         <main className="flex-1 p-8">{children}</main>
       </div>
     </ProtectedRoute>

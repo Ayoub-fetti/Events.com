@@ -11,6 +11,10 @@ class ReservationsService {
     );
     return data;
   }
+  async findAll(): Promise<Reservation[]> {
+    const { data } = await httpClient.get('/reservations');
+    return data;
+  }
 
   async getMyReservations(): Promise<Reservation[]> {
     const { data } = await httpClient.get('/reservations/my-reservations');

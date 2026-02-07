@@ -50,5 +50,6 @@ export const ROUTES = {
     DASHBOARD: '/participant/dashboard',
     EVENTS: '/participant/events',
     RESERVATIONS: '/participant/reservations',
+    PROFILE: '/participant/profile',
   },
 };

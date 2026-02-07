@@ -78,6 +78,11 @@ export class ReservationsController {
 
   // Amin endpoints
 
+  @Get()
+  @Roles(Role.ADMIN)
+  async getAllReservations() {
+    return this.reservationsService.findAll();
+  }
   @Get('event/:eventId')
   @Roles(Role.ADMIN)
   async getReservationsByEvent(@Param('eventId') eventId: string) {
