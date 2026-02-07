@@ -3,13 +3,12 @@ import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from 'axios';
-import { config } from 'process';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 const httpClient: AxiosInstance = axios.create({
   baseURL: `${API_URL}/api/v1`,
-  headers: { 'Content-Type': 'application/josn' },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 httpClient.interceptors.request.use(
@@ -28,7 +27,7 @@ httpClient.interceptors.response.use(
       localStorage.removeItem('token');
       window.location.href = '/auth/login';
     }
-    return Promise.reject(error.response?.data || error.message);
+    return Promise.reject(error);
   },
 );
 
