@@ -18,7 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
-import { StatusReservation } from 'src/common/enums/status-reservation.enum';
+import { StatusReservation } from '../common/enums/status-reservation.enum';
 
 @Controller('reservations')
 @UseGuards(JwtAuthGuard, RolesGuard)
