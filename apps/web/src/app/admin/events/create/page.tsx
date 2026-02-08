@@ -16,6 +16,7 @@ type EventFormData = {
   location: string;
   capacity: number;
   status: Status;
+  image?: string;
 };
 
 export default function CreateEvent() {

@@ -147,7 +147,6 @@ export default function ParticipantSidebar() {
 
       {/* Bottom Section - User Info & Logout */}
       <div className="p-4 border-t border-white/10 space-y-3">
-
         {/* Profile & Logout */}
         <div className="space-y-1">
           <Link

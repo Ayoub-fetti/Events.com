@@ -35,7 +35,7 @@ export const eventSchema = yup.object({
     .mixed<Status>()
     .oneOf(Object.values(Status))
     .required('Statut requis'),
-  image: yup.string().url('URL invalide').optional(),
+  image: yup.string().nullable().notRequired(),
 });
 
 export const userSchema = yup.object({

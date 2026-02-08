@@ -1,0 +1,28 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./apps/api/.env.production
+    volumes:
+      - ./apps/api/uploads:/app/uploads
+    depends_on:
+      - web
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./apps/web/.env.production
+    environment:
+      - NEXT_PUBLIC_API_URL=http://api:3000
+
+networks:
+  default:
+    driver: bridge

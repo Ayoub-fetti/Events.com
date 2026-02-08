@@ -24,7 +24,7 @@ export interface CreateEventDto {
   location: string;
   capacity: number;
   status: Status;
-  image?: string;
+  image?: string | null;
 }
 export interface UpdateEventDto {
   title?: string;

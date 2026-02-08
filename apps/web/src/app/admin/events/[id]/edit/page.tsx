@@ -52,7 +52,7 @@ export default function EditEvent() {
     e.preventDefault();
     try {
       setIsSubmitting(true);
-      const { _id, createdAt, updatedAt, __v, ...cleanData } = formData;
+      const { _id, createdAt, updatedAt, ...cleanData } = formData;
       await updateEvent(params.id as string, cleanData, image || undefined);
       toast.success('Event updated successfully!');
       setTimeout(() => router.push('/admin/events'), 1000);
