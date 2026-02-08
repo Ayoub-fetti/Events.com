@@ -19,7 +19,13 @@ const eslintConfig = defineConfig([
       '@typescript-eslint/require-await': 'off',
     },
   },
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    'conception/**',
+  ]),
 ]);
 
 export default eslintConfig;
