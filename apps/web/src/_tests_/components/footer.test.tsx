@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Footer from '../footer';
+import Footer from '../../components/layout/footer';
 
 describe('Footer', () => {
   it('affiche le logo Events.com', () => {

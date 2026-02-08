@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Header from '../header';
+import Header from '../../components/layout/header';
 
 describe('Header', () => {
   it('affiche le logo Events.com', () => {

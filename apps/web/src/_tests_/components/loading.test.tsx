@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import Loading from '../loading';
+import Loading from '../../components/shared/loading';
 
 describe('Loading', () => {
   it('affiche le spinner', () => {

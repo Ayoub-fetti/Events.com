@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ParticipantSidebar from '../participant-sidebar';
+import AdminSidebar from '../../components/admin/admin-sidebar';
 
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/participant/dashboard',
+  usePathname: () => '/admin/dashboard',
   useRouter: () => ({ push: jest.fn() }),
 }));
 
@@ -11,21 +11,22 @@ jest.mock('@/hooks/use-auth', () => ({
   useAuth: () => ({ logout: jest.fn(), loading: false }),
 }));
 
-describe('ParticipantSidebar', () => {
-  it('affiche le titre My Events', () => {
-    render(<ParticipantSidebar />);
-    expect(screen.getByText('My Events')).toBeInTheDocument();
+describe('AdminSidebar', () => {
+  it('affiche le titre Admin Panel', () => {
+    render(<AdminSidebar />);
+    expect(screen.getByText('Admin Panel')).toBeInTheDocument();
   });
 
   it('affiche tous les liens de navigation', () => {
-    render(<ParticipantSidebar />);
+    render(<AdminSidebar />);
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
-    expect(screen.getByText('Browse Events')).toBeInTheDocument();
-    expect(screen.getByText('My Reservations')).toBeInTheDocument();
+    expect(screen.getByText('Events')).toBeInTheDocument();
+    expect(screen.getByText('Reservations')).toBeInTheDocument();
+    expect(screen.getByText('Users')).toBeInTheDocument();
   });
 
   it('affiche le bouton Logout', () => {
-    render(<ParticipantSidebar />);
+    render(<AdminSidebar />);
     expect(screen.getByText('Logout')).toBeInTheDocument();
   });
 });
