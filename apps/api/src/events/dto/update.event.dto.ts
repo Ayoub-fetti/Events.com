@@ -7,7 +7,7 @@ import {
   IsDate,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Status } from 'src/common/enums/status.enum';
+import { Status } from '../../common/enums/status.enum';
 
 export class UpdateEventDto {
   @IsOptional()

@@ -5,15 +5,22 @@ const TOKEN_KEY = 'token';
 
 export const authUtils = {
   setToken: (token: string): void => {
-    localStorage.setItem(TOKEN_KEY, token);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(TOKEN_KEY, token);
+    }
   },
 
   getToken: (): string | null => {
-    return localStorage.getItem(TOKEN_KEY);
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(TOKEN_KEY);
+    }
+    return null;
   },
 
   removeToken: (): void => {
-    localStorage.removeItem(TOKEN_KEY);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(TOKEN_KEY);
+    }
   },
 
   decodeJwt: (token: string): JwtPayload | null => {

@@ -18,7 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../common/enums/role.enum';
-import { StatusReservation } from 'src/common/enums/status-reservation.enum';
+import { StatusReservation } from '../common/enums/status-reservation.enum';
 
 @Controller('reservations')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -78,8 +78,19 @@ export class ReservationsController {
 
   // Amin endpoints
 
-  @Get('event/:eventId')
+  @Get()
   @Roles(Role.ADMIN)
+  async getAllReservations() {
+    return this.reservationsService.findAll();
+  }
+  @Get('event/:eventId/count')
+  @Roles(Role.ADMIN, Role.PARTICIPANT)
+  async getReservationsCount(@Param('eventId') eventId: string) {
+    return this.reservationsService.getReservationsCount(eventId);
+  }
+
+  @Get('event/:eventId')
+  @Roles(Role.ADMIN, Role.PARTICIPANT)
   async getReservationsByEvent(@Param('eventId') eventId: string) {
     return this.reservationsService.findByEvent(eventId);
   }

@@ -19,10 +19,10 @@ import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update.event.dto';
 import { FilterEventsDto } from './dto/filter-events.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { Role } from '../common/enums/role.enum';
+import { RolesGuard } from '../common/guards/roles.guard';
 
 @Controller('events')
 export class EventsController {
@@ -33,6 +33,11 @@ export class EventsController {
   @Roles(Role.ADMIN)
   findAll(@Query() filters: FilterEventsDto) {
     return this.eventsService.findAll(filters);
+  }
+
+  @Get('published')
+  findPublished(@Query() filters: FilterEventsDto) {
+    return this.eventsService.findPublished(filters);
   }
 
   @Get(':id')
@@ -117,12 +122,5 @@ export class EventsController {
   @Roles(Role.ADMIN)
   remove(@Param('id') id: string) {
     return this.eventsService.remove(id);
-  }
-
-  @Get('published')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.PARTICIPANT)
-  findPublished(@Query() filters: FilterEventsDto) {
-    return this.eventsService.findPublished(filters);
   }
 }

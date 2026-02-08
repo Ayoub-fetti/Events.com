@@ -18,6 +18,20 @@ export const useReservations = () => {
     (state) => state.reservations,
   );
 
+  const fetchAllReservations = async () => {
+    dispatch(setLoading(true));
+    try {
+      const data = await reservationsService.findAll();
+      dispatch(setReservations(data));
+    } catch (err: unknown) {
+      dispatch(
+        setError(err instanceof Error ? err.message : 'An error occurred'),
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   const fetchMyReservations = async () => {
     dispatch(setLoading(true));
     try {
@@ -72,6 +86,7 @@ export const useReservations = () => {
     reservations,
     loading,
     error,
+    fetchAllReservations,
     fetchMyReservations,
     fetchEventReservations,
     createReservation,

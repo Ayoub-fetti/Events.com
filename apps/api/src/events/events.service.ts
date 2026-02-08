@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update.event.dto';
 import { Event, EventDocument } from './entities/event.entities';
-import { Status } from 'src/common/enums/status.enum';
+import { Status } from '../common/enums/status.enum';
 import { FilterEventsDto } from './dto/filter-events.dto';
 
 @Injectable()

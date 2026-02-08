@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import ErrorBoundary from '@/components/shared/error-boundary';
 import StoreProvider from '@/store/providers/store-provider';
 
@@ -18,6 +20,7 @@ export default function RootLayout({
       <body className="antialiased">
         <StoreProvider>
           <ErrorBoundary>{children}</ErrorBoundary>
+          <ToastContainer position="top-right" autoClose={3000} />
         </StoreProvider>
       </body>
     </html>

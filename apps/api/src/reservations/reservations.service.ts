@@ -19,6 +19,10 @@ export class ReservationsService {
   async create(
     createReservationDto: CreateReservationDto,
   ): Promise<Reservation> {
+    if (!createReservationDto.userId) {
+      throw new BadRequestException('User ID is required');
+    }
+
     await this.validateReservation(
       createReservationDto.eventId,
       createReservationDto.userId,
@@ -97,5 +101,13 @@ export class ReservationsService {
     return this.reservationModel
       .findByIdAndUpdate(id, { status }, { new: true })
       .exec();
+  }
+
+  async getReservationsCount(eventId: string) {
+    const count = await this.reservationModel.countDocuments({
+      eventId,
+      status: { $in: ['pending', 'confirmed'] },
+    });
+    return { count };
   }
 }
