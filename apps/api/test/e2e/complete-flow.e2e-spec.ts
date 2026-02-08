@@ -16,11 +16,14 @@ describe('Complete Flow E2E', () => {
   let reservationId: string;
 
   beforeAll(async () => {
+    process.env.MONGODB_URI = 'mongodb://localhost:27017/events-db-test';
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix('api/v1');
+    app.enableCors();
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await app.init();
 
@@ -37,7 +40,7 @@ describe('Complete Flow E2E', () => {
   describe('Authentication', () => {
     it('should register admin', async () => {
       const res = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/v1/auth/register')
         .send({
           email: 'admin@test.com',
           password: 'Admin123!',
@@ -51,7 +54,7 @@ describe('Complete Flow E2E', () => {
 
     it('should register participant', async () => {
       const res = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/v1/auth/register')
         .send({
           email: 'user@test.com',
           password: 'User123!',
@@ -80,7 +83,7 @@ describe('Complete Flow E2E', () => {
 
     it('should publish event as admin', async () => {
       const res = await request(app.getHttpServer())
-        .patch(`/events/${eventId}/publish`)
+        .patch(`/api/v1/events/${eventId}/publish`)
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(200);
 
@@ -89,7 +92,7 @@ describe('Complete Flow E2E', () => {
 
     it('should get published events', async () => {
       const res = await request(app.getHttpServer())
-        .get('/events/published')
+        .get('/api/v1/events/published')
         .expect(200);
 
       expect(res.body.length).toBeGreaterThan(0);
@@ -99,10 +102,10 @@ describe('Complete Flow E2E', () => {
   describe('Reservation Flow (Participant)', () => {
     it('should create reservation', async () => {
       const res = await request(app.getHttpServer())
-        .post('/reservations')
+        .post('/api/v1/reservations')
         .set('Authorization', `Bearer ${userToken}`)
         .send({ eventId });
-        
+
       if (res.status === 201) {
         reservationId = res.body._id;
       }
@@ -112,7 +115,7 @@ describe('Complete Flow E2E', () => {
 
     it('should fail duplicate reservation', async () => {
       await request(app.getHttpServer())
-        .post('/reservations')
+        .post('/api/v1/reservations')
         .set('Authorization', `Bearer ${userToken}`)
         .send({ eventId })
         .expect(400);
@@ -120,7 +123,7 @@ describe('Complete Flow E2E', () => {
 
     it('should get my reservations', async () => {
       const res = await request(app.getHttpServer())
-        .get('/reservations/my-reservations')
+        .get('/api/v1/reservations/my-reservations')
         .set('Authorization', `Bearer ${userToken}`)
         .expect(200);
 
@@ -131,7 +134,7 @@ describe('Complete Flow E2E', () => {
   describe('Admin Management', () => {
     it('should get all reservations', async () => {
       const res = await request(app.getHttpServer())
-        .get('/reservations')
+        .get('/api/v1/reservations')
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(200);
 
@@ -140,7 +143,7 @@ describe('Complete Flow E2E', () => {
 
     it('should update reservation status', async () => {
       const res = await request(app.getHttpServer())
-        .patch(`/reservations/${reservationId}/status`)
+        .patch(`/api/v1/reservations/${reservationId}/status`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({ status: 'confirmed' })
         .expect(200);
@@ -150,7 +153,7 @@ describe('Complete Flow E2E', () => {
 
     it('should cancel event', async () => {
       const res = await request(app.getHttpServer())
-        .patch(`/events/${eventId}/cancel`)
+        .patch(`/api/v1/events/${eventId}/cancel`)
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(200);
 

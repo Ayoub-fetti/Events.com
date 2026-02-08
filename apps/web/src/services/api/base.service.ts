@@ -24,6 +24,6 @@ export class BaseService<T> {
   }
 
   async delete(id: string | number): Promise<void> {
-    await httpClient.delete(`{this.endpoint}/${id}`);
+    await httpClient.delete(`${this.endpoint}/${id}`);
   }
 }
