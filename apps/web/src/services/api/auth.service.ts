@@ -22,11 +22,6 @@ class AuthService {
   async logout(): Promise<void> {
     localStorage.removeItem('token');
   }
-
-  async getProfile(): Promise<User> {
-    const { data } = await httpClient.get('/auth/profile');
-    return data;
-  }
 }
 
 const authService = new AuthService();
