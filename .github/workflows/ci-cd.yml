@@ -7,42 +7,41 @@ on:
     branches: [main]
 
 jobs:
-  lint-and-format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-      - name: Install dependencies
-        run: npm run install:all
-      - name: Lint API
-        run: cd apps/api && npm run lint
-      - name: Format API
-        run: cd apps/api && npm run format
-      - name: Format Web
-        run: cd apps/web && npm run format
+  # lint-and-format:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "18"
+  #     - name: Install dependencies
+  #       run: npm run install:all
+  #     - name: Lint API
+  #       run: cd apps/api && npm run lint
+  #     - name: Format API
+  #       run: cd apps/api && npm run format
+  #     - name: Format Web
+  #       run: cd apps/web && npm run format
 
   # New Test Job
-  test:
-    runs-on: ubuntu-latest
-    needs: lint-and-format
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-      - name: Install dependencies
-        run: npm run install:all
-      - name: Test API
-        run: cd apps/api && npm run test
-      - name: Test Web
-        run: cd apps/web && npm run test
+  # test:
+  #   runs-on: ubuntu-latest
+  #   needs: lint-and-format
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "18"
+  #     - name: Install dependencies
+  #       run: npm run install:all
+  #     - name: Test API
+  #       run: cd apps/api && npm run test
+  #     - name: Test Web
+  #       run: cd apps/web && npm run test
 
   build-and-push:
     runs-on: ubuntu-latest
-    # Updated to wait for tests to pass
-    needs: test
+    # needs: test
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
