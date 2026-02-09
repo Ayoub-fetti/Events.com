@@ -7,6 +7,7 @@ import {
 } from './entities/reservations.entity';
 import { Event, EventDocument } from '../events/entities/event.entities';
 import { CreateReservationDto } from './dto/create-reservation.dto';
+import { User, UserDocument } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ReservationsService {
@@ -14,11 +15,21 @@ export class ReservationsService {
     @InjectModel(Reservation.name)
     private reservationModel: Model<ReservationDocument>,
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>, // inject user model
   ) {}
 
   async create(
     createReservationDto: CreateReservationDto,
   ): Promise<Reservation> {
+    const user = await this.userModel.findById(createReservationDto.userId);
+
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+    if (user.isActive === false) {
+      throw new BadRequestException('User is deactivated');
+    }
+
     if (!createReservationDto.userId) {
       throw new BadRequestException('User ID is required');
     }

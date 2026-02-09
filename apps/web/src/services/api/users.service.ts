@@ -16,6 +16,10 @@ class UsersService {
     const { data } = await httpClient.put(`/users/${id}`, updateUserDto);
     return data;
   }
+
+  async remove(id: string): Promise<void> {
+    await httpClient.delete(`/users/${id}`);
+  }
 }
 
 const userService = new UsersService();

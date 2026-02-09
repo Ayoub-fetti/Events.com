@@ -5,11 +5,13 @@ import { ReservationsService } from './reservations.service';
 import { Reservation, ReservationSchema } from './entities/reservations.entity';
 import { Event, EventSchema } from '../events/entities/event.entities';
 import { PdfService } from '../pdf/pdf.service';
+import { User, UserSchema } from 'src/users/entities/user.entity';
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Reservation.name, schema: ReservationSchema },
       { name: Event.name, schema: EventSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [ReservationsController],

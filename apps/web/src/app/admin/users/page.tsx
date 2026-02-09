@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { useUsers } from '@/hooks/use-users';
 import Loading from '@/components/shared/loading';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 export default function AdminUsers() {
-  const { users, loading, fetchUsers, updateUser } = useUsers();
+  const { users, loading, fetchUsers, updateUser, deleteUser } = useUsers();
 
   useEffect(() => {
     fetchUsers();
@@ -28,6 +29,29 @@ export default function AdminUsers() {
     } catch (err: any) {
       console.error('Error message', err);
       toast.error('Error happened');
+    }
+  };
+
+  const handleDelete = async (id: sting) => {
+    const result = await Swal.fire({
+      title: 'Delete User?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Delete',
+      background: '#1f2937',
+      color: '#fff',
+    });
+
+    if (result.isConfirmed) {
+      await deleteUser(id);
+      Swal.fire(
+        'Deleted!',
+        'User and related reservations deleted successfully',
+        'success',
+      );
     }
   };
 
@@ -408,6 +432,29 @@ export default function AdminUsers() {
                               />
                             </svg>
                           )}
+                        </button>{' '}
+                        <button
+                          onClick={() => handleDelete(user._id)}
+                          disabled={user.role === 'admin'}
+                          className={`p-2 rounded-lg transition-all duration-200 ${
+                            user.role === 'admin'
+                              ? 'text-gray-500 cursor-not-allowed-all opacity-50'
+                              : 'text-red-400 hover:bg-red-500/10'
+                          }`}
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m3-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z"
+                            />
+                          </svg>
                         </button>
                       </div>
                     </td>

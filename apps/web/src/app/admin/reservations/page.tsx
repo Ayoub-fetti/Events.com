@@ -301,7 +301,8 @@ export default function AdminReservations() {
                         </div>
                         <div>
                           <p className="text-white font-medium">
-                            {typeof reservation.eventId === 'object'
+                            {reservation.eventId &&
+                            typeof reservation.eventId === 'object'
                               ? reservation.eventId.title
                               : reservation.eventId}
                           </p>

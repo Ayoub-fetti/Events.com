@@ -8,10 +8,14 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Reservation } from 'src/reservations/entities/reservations.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Reservation.name) private reservationModel: Model<any>,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const existingUser = await this.userModel.findOne({
@@ -57,5 +61,10 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return this.userModel.find().select('-password');
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.reservationModel.deleteMany({ userId: id });
+    await this.userModel.findByIdAndDelete(id);
   }
 }

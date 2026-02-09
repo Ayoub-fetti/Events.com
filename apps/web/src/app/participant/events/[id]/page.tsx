@@ -97,8 +97,8 @@ export default function EventDetail() {
           </svg>
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-white mb-1">Event Details</h1>
-          <p className="text-gray-400">
+          <h1 className="text-3xl font-bold mb-1">Event Details</h1>
+          <p className="text-gray-500">
             View event information and make a reservation
           </p>
         </div>

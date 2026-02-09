@@ -6,6 +6,7 @@ import {
   updateUser as updateUserAction,
   setLoading,
   setError,
+  removeUser,
 } from '@/store/slices/users.slice';
 import usersService from '@/services/api/users.service';
 import { UpdateUserDto } from '@/types/user.types';
@@ -38,5 +39,18 @@ export const useUsers = () => {
     return data;
   };
 
-  return { users, loading, error, fetchUsers, fetchUser, updateUser };
+  const deleteUser = async (id: string) => {
+    await usersService.remove(id);
+    dispatch(removeUser(id));
+  };
+
+  return {
+    users,
+    loading,
+    error,
+    fetchUsers,
+    fetchUser,
+    updateUser,
+    deleteUser,
+  };
 };

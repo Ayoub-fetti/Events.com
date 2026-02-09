@@ -46,7 +46,7 @@ export default function Home() {
               Upcoming Events
             </h2>
             <Link
-              href="/auth/register"
+              href="/auth/login"
               className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors flex items-center gap-1"
             >
               <span>View all</span>
