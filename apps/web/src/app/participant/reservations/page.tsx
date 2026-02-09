@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useReservations } from '@/hooks/use-reservations';
 import Loading from '@/components/shared/loading';
+import Swal from 'sweetalert2';
 
 export default function ParticipantReservations() {
   const {
@@ -33,14 +34,22 @@ export default function ParticipantReservations() {
   };
 
   const handleCancel = async (id: string) => {
-    if (confirm('Are you sure you want to cancel this reservation?')) {
-      try {
-        await cancelReservation(id);
-        toast.success('Reservation cancelled successfully!');
-        fetchMyReservations();
-      } catch (error) {
-        toast.error('Failed to cancel reservation');
-      }
+    const result = await Swal.fire({
+      title: 'Cancel Reservation?',
+      text: 'This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Delete',
+      background: '#1f2937',
+      color: '#fff',
+    });
+
+    if (result.isConfirmed) {
+      await cancelReservation(id);
+      fetchMyReservations();
+      Swal.fire('Deleted!', 'Reservations Cancled successfully', 'success');
     }
   };
 

@@ -10,11 +10,16 @@ import { UpdateEventDto } from './dto/update.event.dto';
 import { Event, EventDocument } from './entities/event.entities';
 import { Status } from '../common/enums/status.enum';
 import { FilterEventsDto } from './dto/filter-events.dto';
+import {
+  Reservation,
+  ReservationDocument,
+} from 'src/reservations/entities/reservations.entity';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectModel(Event.name) private eventModel: Model<EventDocument>,
+    @InjectModel(Reservation.name) private reservationModel: Model<any>,
   ) {}
 
   async findAll(filters?: FilterEventsDto): Promise<Event[]> {
@@ -120,5 +125,6 @@ export class EventsService {
     if (!result) {
       throw new NotFoundException('Event not found');
     }
+    await this.reservationModel.deleteMany({ eventId: id });
   }
 }

@@ -35,7 +35,11 @@ export default function AdminEvents() {
 
     if (result.isConfirmed) {
       await deleteEvent(id);
-      Swal.fire('Deleted!', 'Event deleted successfully', 'success');
+      Swal.fire(
+        'Deleted!',
+        'Event and related reservations deleted successfully',
+        'success',
+      );
     }
   };
 

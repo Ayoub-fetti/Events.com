@@ -3,12 +3,14 @@ import { getModelToken } from '@nestjs/mongoose';
 import { ReservationsService } from '../../src/reservations/reservations.service';
 import { Reservation } from '../../src/reservations/entities/reservations.entity';
 import { Event } from '../../src/events/entities/event.entities';
+import { User } from '../../src/users/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
 
 describe('ReservationsService', () => {
   let service: ReservationsService;
   let mockReservationModel: any;
   let mockEventModel: any;
+  let mockUserModel: any;
 
   beforeEach(async () => {
     mockReservationModel = {
@@ -21,6 +23,10 @@ describe('ReservationsService', () => {
       findById: jest.fn(),
     };
 
+    mockUserModel = {
+      findById: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ReservationsService,
@@ -29,6 +35,7 @@ describe('ReservationsService', () => {
           useValue: mockReservationModel,
         },
         { provide: getModelToken(Event.name), useValue: mockEventModel },
+        { provide: getModelToken(User.name), useValue: mockUserModel },
       ],
     }).compile();
 

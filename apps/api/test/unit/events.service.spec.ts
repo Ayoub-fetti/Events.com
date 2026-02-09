@@ -23,6 +23,7 @@ describe('EventsService', () => {
       providers: [
         EventsService,
         { provide: getModelToken(Event.name), useValue: mockEventModel },
+        { provide: getModelToken('Reservation'), useValue: {} },
       ],
     }).compile();
 
