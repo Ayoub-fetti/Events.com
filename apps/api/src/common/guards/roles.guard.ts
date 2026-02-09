@@ -3,6 +3,8 @@ import { Reflector } from '@nestjs/core';
 import { Role } from '../enums/role.enum';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
+// Lire le role du JWT et compare avec le role des endpoints
+
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}

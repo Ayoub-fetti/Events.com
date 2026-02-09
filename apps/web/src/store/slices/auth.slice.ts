@@ -15,6 +15,7 @@ const initialState: AuthState = {
   loading: false,
 };
 
+// fonctions pour modifier l'etat
 const authSlice = createSlice({
   name: 'auth',
   initialState,

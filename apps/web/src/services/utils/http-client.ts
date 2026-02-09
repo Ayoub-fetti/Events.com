@@ -12,6 +12,7 @@ const httpClient: AxiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+// envoyer toutes les requettes http vers backend avec token
 httpClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     if (typeof window === 'undefined') return config;
@@ -32,6 +33,7 @@ httpClient.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+// ajouter comportement global , par example redirection si token expire
 httpClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {

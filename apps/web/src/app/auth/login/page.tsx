@@ -72,6 +72,13 @@ export default function LoginPage() {
           <p className="text-gray-400 text-sm">
             Sign in to your account to continue
           </p>
+          <Link
+            href={'/'}
+            className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
+          >
+            {' '}
+            Back to home page
+          </Link>
         </div>
 
         <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">

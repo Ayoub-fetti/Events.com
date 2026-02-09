@@ -57,6 +57,13 @@ export default function RegisterPage() {
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white mb-1">Create Account</h1>
           <p className="text-gray-400 text-sm">Join us and get started today</p>
+          <Link
+            href={'/'}
+            className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
+          >
+            {' '}
+            Back to home page
+          </Link>
         </div>
 
         <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">

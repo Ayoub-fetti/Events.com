@@ -13,6 +13,7 @@ const initialState: ReservationsState = {
   error: null,
 };
 
+// fonctions pour modifier l'etat
 const reservationsSlice = createSlice({
   name: 'reservations',
   initialState,

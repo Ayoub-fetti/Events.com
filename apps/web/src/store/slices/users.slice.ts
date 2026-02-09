@@ -13,6 +13,7 @@ const initialState: UsersState = {
   error: null,
 };
 
+// fonctions pour modifier l'etat
 const usersSlice = createSlice({
   name: 'users',
   initialState,

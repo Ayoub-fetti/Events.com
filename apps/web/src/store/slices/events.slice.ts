@@ -15,6 +15,7 @@ const initialState: EventsState = {
   error: null,
 };
 
+// fonctions pour modifier l'etat
 const eventsSlice = createSlice({
   name: 'events',
   initialState,
